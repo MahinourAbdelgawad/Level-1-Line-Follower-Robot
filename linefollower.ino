@@ -32,33 +32,29 @@ void loop() {
 
    // 0 represents black and 1 represents white 
 
-  if(SL == 1 && SM == 1 && SR == 1){
+  if(SL == 1 && SM == 1 && SR == 1) {
     backward();
     delay(20);
   } 
-  else if(SL == 0 && SM == 0 && SR == 0){
+  else if ((SL == 0 && SM == 0 && SR == 0) || (SL == 1 && SM == 0 && SR == 1) || (SL == 0 && SM == 1 && SR == 0)) {
     forward(); 
-    delay(20);  
-  }
-  else if(SL == 1 && SM == 0 && SR == 1){
-    forward(); 
-    delay(20);  
-  }   
-  else if(SL == 1 && SM == 1 && SR == 0){
+    delay(50);  
+  }  
+  else if(SL == 1 && SM == 1 && SR == 0) {
     sharp_right(); 
-    delay(20); 
+    delay(100); 
   }  
-  else if(SL == 0 && SM == 1 && SR == 1){
+  else if(SL == 0 && SM == 1 && SR == 1) {
     left(); 
-    delay(20); 
-  } 
-  else if(SL == 1 && SM == 0 && SR == 0){
+    delay(100); 
+  }
+  else if(SL == 1 && SM == 0 && SR == 0) {
     right(); 
-    delay(20); 
+    delay(100); 
   }  
-  else if(SL == 0 && SM == 0 && SR == 1){
+  else if(SL == 0 && SM == 0 && SR == 1) {
     left(); 
-    delay(20); 
+    delay(100); 
   }   
   else {
     stop();
@@ -67,7 +63,7 @@ void loop() {
 } 
 
 void forward() {
-  analogWrite(ENL, 150);
+  analogWrite(ENL, 165);
   digitalWrite(leftWheel1, HIGH);
   digitalWrite(leftWheel2, LOW);
 
@@ -77,7 +73,7 @@ void forward() {
 }
 
 void backward() {
-  analogWrite(ENL, 100);
+  analogWrite(ENL, 120);
   digitalWrite(leftWheel1, LOW);
   digitalWrite(leftWheel2, HIGH);
 
@@ -107,16 +103,6 @@ void sharp_right() {
 
 } 
 
-void sharper_right() {
-  analogWrite(ENL, 255);
-  digitalWrite(leftWheel1, HIGH);
-  digitalWrite(leftWheel2, LOW);
-
-  analogWrite(ENR, 0);
-  digitalWrite(rightWheel1, LOW);
-  digitalWrite(rightWheel2, HIGH);
-}
-
 void left() {
   analogWrite(ENL, 0);
   digitalWrite(leftWheel1, HIGH);
@@ -137,29 +123,7 @@ void sharp_left() {
   digitalWrite(rightWheel2, HIGH);
 }
 
-void sharper_left() {
-  analogWrite(ENL, 0);
-  digitalWrite(leftWheel1, HIGH);
-  digitalWrite(leftWheel2, LOW);
-
-  analogWrite(ENR, 255);
-  digitalWrite(rightWheel1, LOW);
-  digitalWrite(rightWheel2, HIGH);
-  }
-
-void backward_left() {
-  analogWrite(ENL, 100);
-  digitalWrite(leftWheel1, LOW);
-  digitalWrite(leftWheel2, HIGH);
-
-  analogWrite(ENR, 255);
-  digitalWrite(rightWheel1, HIGH);
-  digitalWrite(rightWheel2, LOW);
-}
-
-
 void stop() {
   analogWrite(ENL, 0);
   analogWrite(ENR, 0);
 }
-
