@@ -10,6 +10,9 @@ int sensorLeft = 5;
 int sensorRight = 3;
 int sensorMid = 4;
 
+int backCount = 0;
+int lastRead = 000;
+
 void setup() {
   pinMode(ENL, OUTPUT);
   pinMode(leftWheel1, OUTPUT);
@@ -33,29 +36,56 @@ void loop() {
    // 0 represents black and 1 represents white 
 
   if(SL == 1 && SM == 1 && SR == 1) {
-    backward();
+    if (backCount <= 4) {
+      backward();
+      backCount++;
+    }
+    else {
+      if ((lastRead == 110) || (lastRead == 100))
+        sharp_right();
+      else if ((lastRead == 011) || (lastRead == 001))
+        sharp_left();
+      else
+        forward();
+
+      backCount = 0;
+    }
     delay(20);
   } 
-  else if ((SL == 0 && SM == 0 && SR == 0) || (SL == 1 && SM == 0 && SR == 1) || (SL == 0 && SM == 1 && SR == 0)) {
+
+  else if (SL == 0 && SM == 0 && SR == 0) {
     forward(); 
     delay(50);  
-  }  
+  } 
+  else if (SL == 1 && SM == 0 && SR == 1) {
+    forward();
+    delay(50);
+  }
+  else if (SL == 0 && SM == 1 && SR == 0) {
+    forward();
+    delay(50);
+  }
+
   else if(SL == 1 && SM == 1 && SR == 0) {
     sharp_right(); 
     delay(100); 
   }  
+
   else if(SL == 0 && SM == 1 && SR == 1) {
     left(); 
     delay(100); 
   }
+
   else if(SL == 1 && SM == 0 && SR == 0) {
     right(); 
     delay(100); 
   }  
+
   else if(SL == 0 && SM == 0 && SR == 1) {
     left(); 
     delay(100); 
-  }   
+  }  
+
   else {
     stop();
   }
@@ -63,7 +93,7 @@ void loop() {
 } 
 
 void forward() {
-  analogWrite(ENL, 165);
+  analogWrite(ENL, 170);
   digitalWrite(leftWheel1, HIGH);
   digitalWrite(leftWheel2, LOW);
 
@@ -73,7 +103,7 @@ void forward() {
 }
 
 void backward() {
-  analogWrite(ENL, 120);
+  analogWrite(ENL, 100);
   digitalWrite(leftWheel1, LOW);
   digitalWrite(leftWheel2, HIGH);
 
