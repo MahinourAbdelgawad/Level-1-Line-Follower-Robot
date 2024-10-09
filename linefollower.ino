@@ -6,10 +6,9 @@ int ENR = 6; //enable right
 int rightWheel1 = 8;
 int rightWheel2 = 7;
 
-//Add the pin numbers and uncomment
-// int sensorLeft =
-// int sensorRight =
-// int sensorMid = 
+int sensorLeft = 5;
+int sensorRight = 3;
+int sensorMid = 4;
 
 void setup() {
   pinMode(ENL, OUTPUT);
@@ -26,80 +25,73 @@ void setup() {
 
 }
 
-//FOR TESTING FUNCTIONS. REMOVE FUNCTION WHEN DONE AND MOVE TO MAIN LOOP
 void loop() {
-  forward();
-  delay(5000);
+   int SL = digitalRead(sensorLeft); //sensor value left
+   int SR = digitalRead(sensorRight); //sensor value right
+   int SM = digitalRead(sensorMid); //sensor value middle
 
-  backward();
-  delay(5000);
+   // 0 represents black and 1 represents white 
 
-  right();
-  delay(5000);
-
-  sharp_right();
-  delay(5000);
-
-  left();
-  delay(5000);
-
-  sharp_left();
-  delay(5000);
-
-  stop();
-}
-
-
-//THIS IS THE MAIN LOOP. UNCOMMENT AFTER TESTING ALL THE FUNCTIONS SEPARATELY. ONLY WORKS ON TRACK
-// void loop() {
-//   bool sensorVL = digitalRead(sensorLeft); //sensor value left
-//   bool sensorVR = digitalRead(sensorRight); //sensor value right
-//   bool sensorVM = digitalRead(sensorMid); //sensor value middle
-
-//   if ((sensorVL == 1 && sensorVM == 0 && sensorVR == 1) || (sensorVL == 0 && sensorVR == 0))
-//     forward();
-
-//   else if (sensorVL == 0 && sensorVM == 0 && sensorVR == 1)
-//     left();
-//   else if (sensorVL == 0 && sensorVM == 1 && sensorVR == 1)
-//     sharp_left();
+  if(SL == 1 && SM == 1 && SR == 1){
+    backward();
+    delay(20);
+  } 
+  else if(SL == 0 && SM == 0 && SR == 0){
+    forward(); 
+    delay(20);  
+  }
+  else if(SL == 1 && SM == 0 && SR == 1){
+    forward(); 
+    delay(20);  
+  }   
+  else if(SL == 1 && SM == 1 && SR == 0){
+    sharp_right(); 
+    delay(20); 
+  }  
+  else if(SL == 0 && SM == 1 && SR == 1){
+    left(); 
+    delay(20); 
+  } 
+  else if(SL == 1 && SM == 0 && SR == 0){
+    right(); 
+    delay(20); 
+  }  
+  else if(SL == 0 && SM == 0 && SR == 1){
+    left(); 
+    delay(20); 
+  }   
+  else {
+    stop();
+  }
   
-//   else if (sensorVL == 1 && sensorVM == 0 && sensorVR == 0)
-//     right();
-//   else if (sensorVL == 1 && sensorVM == 1 && sensorVR == 0)
-//     sharp_right();
-
-//   else if (sensorVL == 1 && sensorVM == 1 && sensorVR == 1)
-//     stop();
-// }
-
+} 
 
 void forward() {
-  analogWrite(ENL, 255);
+  analogWrite(ENL, 150);
   digitalWrite(leftWheel1, HIGH);
   digitalWrite(leftWheel2, LOW);
 
-  analogWrite(ENR, 255);
+  analogWrite(ENR, 150);
   digitalWrite(rightWheel1, LOW);
   digitalWrite(rightWheel2, HIGH);
 }
 
 void backward() {
-  analogWrite(ENL, 255);
+  analogWrite(ENL, 100);
   digitalWrite(leftWheel1, LOW);
   digitalWrite(leftWheel2, HIGH);
 
-  analogWrite(ENR, 255);
+  analogWrite(ENR, 100);
   digitalWrite(rightWheel1, HIGH);
   digitalWrite(rightWheel2, LOW);
 }
 
 void right() {
-  analogWrite(ENL, 255);
+  analogWrite(ENL, 150);
   digitalWrite(leftWheel1, HIGH);
   digitalWrite(leftWheel2, LOW);
 
-  analogWrite(ENR, 180);
+  analogWrite(ENR, 0);
   digitalWrite(rightWheel1, LOW);
   digitalWrite(rightWheel2, HIGH);
 }
@@ -109,25 +101,34 @@ void sharp_right() {
   digitalWrite(leftWheel1, HIGH);
   digitalWrite(leftWheel2, LOW);
 
-  analogWrite(ENR, 90);
+  analogWrite(ENR, 100);
   digitalWrite(rightWheel1, HIGH);
   digitalWrite(rightWheel2, LOW);
 
 } 
 
-
-void left() {
-  analogWrite(ENL, 180);
+void sharper_right() {
+  analogWrite(ENL, 255);
   digitalWrite(leftWheel1, HIGH);
   digitalWrite(leftWheel2, LOW);
 
-  analogWrite(ENR, 255);
+  analogWrite(ENR, 0);
+  digitalWrite(rightWheel1, LOW);
+  digitalWrite(rightWheel2, HIGH);
+}
+
+void left() {
+  analogWrite(ENL, 0);
+  digitalWrite(leftWheel1, HIGH);
+  digitalWrite(leftWheel2, LOW);
+
+  analogWrite(ENR, 130);
   digitalWrite(rightWheel1, LOW);
   digitalWrite(rightWheel2, HIGH);
 }
 
 void sharp_left() {
-  analogWrite(ENL, 90);
+  analogWrite(ENL, 80);
   digitalWrite(leftWheel1, HIGH);
   digitalWrite(leftWheel2, LOW);
 
@@ -135,6 +136,27 @@ void sharp_left() {
   digitalWrite(rightWheel1, LOW);
   digitalWrite(rightWheel2, HIGH);
 }
+
+void sharper_left() {
+  analogWrite(ENL, 0);
+  digitalWrite(leftWheel1, HIGH);
+  digitalWrite(leftWheel2, LOW);
+
+  analogWrite(ENR, 255);
+  digitalWrite(rightWheel1, LOW);
+  digitalWrite(rightWheel2, HIGH);
+  }
+
+void backward_left() {
+  analogWrite(ENL, 100);
+  digitalWrite(leftWheel1, LOW);
+  digitalWrite(leftWheel2, HIGH);
+
+  analogWrite(ENR, 255);
+  digitalWrite(rightWheel1, HIGH);
+  digitalWrite(rightWheel2, LOW);
+}
+
 
 void stop() {
   analogWrite(ENL, 0);
