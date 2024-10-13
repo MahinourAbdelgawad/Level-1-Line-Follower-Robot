@@ -53,54 +53,33 @@ void loop() {
     delay(20);
   } 
 
-  else if (SL == 0 && SM == 0 && SR == 0) {
-    forward(); 
-    delay(50);  
-    backCount = 0;
-  } 
-  else if (SL == 1 && SM == 0 && SR == 1) {
-    forward();
-    delay(50);
-    backCount = 0;
-  }
-  else if (SL == 0 && SM == 1 && SR == 0) {
-    forward();
-    delay(50);
-    backCount = 0;
-  }
-
   else if(SL == 1 && SM == 1 && SR == 0) {
     sharp_right(); 
     delay(100); 
-    backCount = 0;
   }  
 
   else if(SL == 0 && SM == 1 && SR == 1) {
     left(); 
     delay(100); 
-    backCount = 0;
   }
 
   else if(SL == 1 && SM == 0 && SR == 0) {
     right(); 
     delay(100); 
-    backCount = 0;
   }  
 
   else if(SL == 0 && SM == 0 && SR == 1) {
     left(); 
     delay(100); 
-    backCount = 0;
   }  
 
-  else {
-    stop();
-  }
+  else
+    forward();
   
 } 
 
 void forward() {
-  analogWrite(ENL, 180);
+  analogWrite(ENL, 170);
   digitalWrite(leftWheel1, HIGH);
   digitalWrite(leftWheel2, LOW);
 
@@ -158,9 +137,4 @@ void sharp_left() {
   analogWrite(ENR, 255);
   digitalWrite(rightWheel1, LOW);
   digitalWrite(rightWheel2, HIGH);
-}
-
-void stop() {
-  analogWrite(ENL, 0);
-  analogWrite(ENR, 0);
 }
